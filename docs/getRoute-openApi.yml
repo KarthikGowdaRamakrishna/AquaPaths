@@ -1,0 +1,58 @@
+openapi: 3.0.3  
+info:
+  title: Coordinate Path API
+  summary: The Rest Service for getting Coordinate Path between source and destination ports
+  version: v1.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /getpath:
+    post:
+      operationId: get-path
+      description: Retrieves coordinates between source and destination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                src:
+                  type: string
+                  description: Source location
+                destination:
+                  type: string
+                  description: Destination location
+      responses:
+        '200':
+          description: Successfully retrieved coordinates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                      description: Latitude coordinate
+                    longitude:
+                      type: number
+                      format: float
+                      description: Longitude coordinate
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

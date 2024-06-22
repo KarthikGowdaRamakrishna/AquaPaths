@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info:
+  title: User Forecast API
+  summary: RESTful service for retrieving forecast for places saved by user
+  version: v1.0
+servers:
+  - url: http://localhost:3001
+tags:
+  - name: UserForecast
+    description: Operations related to retrieving forecast of User saved places
+paths:
+  /getUserForecast:
+    get:
+      tags:
+        - UserForecast  # Corrected indentation
+      operationId: get-user-forecast
+      description: Retrieves forecast for places saved by a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForecastRequest'  # Corrected schema reference
+      responses:
+        '200':
+          description: Successfully retrieved user's forecast
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForecastResponse'  # Corrected schema reference
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    ForecastRequest:
+      type: object
+      properties:
+        userID:
+          type: integer
+          description: ID of the user
+    ForecastResponse:
+      type: object
+      properties:
+        userID:
+          type: integer
+          description: ID of the user
+        place:
+          type: string
+          description: Name of the place
+        forecast:
+          type: object
+          properties:
+            temperature:
+              type: number
+              format: float
+              description: Temperature forecast
+            humidity:
+              type: number
+              format: float
+              description: Humidity forecast
+            wind_speed:
+              type: number
+              format: float
+              description: Wind speed forecast
+            conditions:
+              type: string
+              description: Weather conditions forecast
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string

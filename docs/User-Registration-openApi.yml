@@ -1,0 +1,59 @@
+openapi: 3.1.0
+info:
+  title: Fisherman/User Registration API
+  summary: RESTful service for Fisherman/User registration
+  version: v1.0
+servers: 
+  - url: http://localhost:3001
+paths: 
+  /userRegistrations:
+    post: 
+      operationId: register-user
+      description: Registers a new user
+      requestBody: 
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+      responses: 
+        '201':
+          description: Successfully registered
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/UserRegistration'
+        '400':
+          description: Bad Request
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    UserRegistration:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+          description: The username of the user
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+        password:
+          type: string
+          format: password
+          description: The password of the user
+        FishermanFlag:
+          type: boolean
+          description: Flag which determins whether the user is a fisherman or commercial user.
+    Error:
+      type: object
+      properties: 
+        code:
+          type: string
+        message:
+          type:  string

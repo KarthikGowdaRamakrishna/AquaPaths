@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info:
+  title: Marine Life News API
+  summary: RESTful service for retrieving the latest news on marine life
+  version: v1.0
+servers: 
+- url: http://localhost:3001
+tags:
+- name: LatestNews
+  description: Operations related to retrieving latest news
+paths: 
+  /getLatestNews:
+    get:
+      tags:
+        - LatestNews 
+      operationId: get-latest-news
+      description: Retrieves the latest news on marine life
+      responses: 
+        '200':
+          description: Successfully retrieved latest news
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/LatestNews'
+        '404':
+          description: No news found
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    LatestNews:
+      type: array
+      items:
+        type: object
+        properties:
+          title:
+            type: string
+            description: Title of the news article
+          description:
+            type: string
+            description: Description of the news article
+          published_at:
+            type: string
+            format: date-time
+            description: Date and time when the news article was published
+          source:
+            type: string
+            description: Source of the news article
+          url:
+            type: string
+            format: uri
+            description: URL of the news article
+    Error:
+      type: object
+      properties: 
+        code:
+          type: string
+        message:
+          type:  string
